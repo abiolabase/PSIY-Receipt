@@ -22,7 +22,7 @@ describe('Auth API', () => {
             const res = await request(app)
                 .post('/api/auth/login')
                 .send({
-                    email: 'buyer@masjid.com',
+                    email: 'buyer@psiy.fi',
                     password: 'password123'
                 });
 
@@ -30,7 +30,7 @@ describe('Auth API', () => {
             expect(res.body).toHaveProperty('token');
             expect(res.body.roles).toContain('BUYER');
             expect(res.body).toHaveProperty('user');
-            expect(res.body.user).toHaveProperty('email', 'buyer@masjid.com');
+            expect(res.body.user).toHaveProperty('email', 'buyer@psiy.fi');
             expect(res.body.user).toHaveProperty('role', 'BUYER');
         });
 
@@ -38,7 +38,7 @@ describe('Auth API', () => {
             const res = await request(app)
                 .post('/api/auth/login')
                 .send({
-                    email: 'buyer@masjid.com',
+                    email: 'buyer@psiy.fi',
                     password: 'wrongpassword'
                 });
 
@@ -50,7 +50,7 @@ describe('Auth API', () => {
             const res = await request(app)
                 .post('/api/auth/login')
                 .send({
-                    email: 'nonexistent@masjid.com',
+                    email: 'nonexistent@psiy.fi',
                     password: 'password123'
                 });
 

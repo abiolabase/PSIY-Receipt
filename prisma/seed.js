@@ -65,7 +65,7 @@ async function main() {
         update: {},
         create: {
             email: 'admin@psiy.fi',
-            name: 'Admin User',
+            name: 'Admin',
             password_hash: password,
             roles: {
                 create: [{ role_id: roleMap['ADMIN'].id }]

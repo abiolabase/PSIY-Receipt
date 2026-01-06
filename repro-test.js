@@ -5,8 +5,8 @@ async function test() {
     try {
         console.log("Testing Receipt creation...");
 
-        // Find the seeded imam user
-        const user = await prisma.user.findFirst({ where: { email: 'imam@masjid.com' } });
+        // Find the seeded buyer user
+        const user = await prisma.user.findFirst({ where: { email: 'buyer@psiy.fi' } });
         if (!user) {
             console.error("Test user not found. Please seed the database first.");
             return;

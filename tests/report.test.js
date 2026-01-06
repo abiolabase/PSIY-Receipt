@@ -14,7 +14,7 @@ describe('Report API', () => {
         const financeRes = await request(app)
             .post('/api/auth/login')
             .send({
-                email: 'finance@masjid.com',
+                email: 'finance@psiy.fi',
                 password: 'password123'
             });
         financeToken = financeRes.body.token;
@@ -23,7 +23,7 @@ describe('Report API', () => {
         const buyerRes = await request(app)
             .post('/api/auth/login')
             .send({
-                email: 'buyer@masjid.com',
+                email: 'buyer@psiy.fi',
                 password: 'password123'
             });
         const buyerToken = buyerRes.body.token;
@@ -129,7 +129,7 @@ describe('Report API', () => {
             const res = await request(app)
                 .post('/api/auth/login')
                 .send({
-                    email: 'multi@masjid.com',
+                    email: 'multi@psiy.fi',
                     password: 'password123'
                 });
             multiToken = res.body.token;
