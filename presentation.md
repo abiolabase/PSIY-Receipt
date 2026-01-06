@@ -70,8 +70,20 @@ To digitize and secure the financial reporting of a Masjid, ensuring that every 
 
 ---
 
+---
+
 ## Slide 6: Summary of Success
 - **16 Automated Tests** verifying every move.
 - **Multi-Role Flexibility** for staff.
 - **Image-Backed Transparency** for every cent spent.
 - **One-Click Exports** for financial audits.
+
+---
+
+## Slide 7: Why Hire This System? (The Pitch)
+**Title: Ready for Real-World Deployment**
+
+1.  **Stability**: 100% test coverage and CI/CD validation.
+2.  **Scalability**: Organized folder structure and clean ORM (Prisma) usage.
+3.  **Auditability**: Designed specifically for financial accountability.
+4.  **Professionalism**: Documentation, presentations, and Excel reports are baked in.
