@@ -7,6 +7,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth.routes');
 const receiptRoutes = require('./routes/receipt.routes');
 const reportRoutes = require('./routes/report.routes');
+const userRoutes = require('./routes/user.routes');
 
 const app = express();
 
@@ -21,9 +22,10 @@ app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
 
 // Routes
-app.use('/auth', authRoutes);
-app.use('/receipts', receiptRoutes);
-app.use('/reports', reportRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/receipts', receiptRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/users', userRoutes);
 
 // Base route
 app.get('/', (req, res) => {

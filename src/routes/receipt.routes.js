@@ -9,7 +9,7 @@ const upload = require('../middleware/upload.middleware');
 router.post(
     '/',
     authenticateToken,
-    authorizeRole(['IMAM']),
+    authorizeRole(['BUYER']),
     upload.single('image'),
     receiptController.createReceipt
 );

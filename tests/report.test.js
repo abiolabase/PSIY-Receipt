@@ -12,26 +12,26 @@ describe('Report API', () => {
     beforeAll(async () => {
         // Login as Finance
         const financeRes = await request(app)
-            .post('/auth/login')
+            .post('/api/auth/login')
             .send({
                 email: 'finance@masjid.com',
                 password: 'password123'
             });
         financeToken = financeRes.body.token;
 
-        // Login as Imam to create test data
-        const imamRes = await request(app)
-            .post('/auth/login')
+        // Login as Buyer to create test data
+        const buyerRes = await request(app)
+            .post('/api/auth/login')
             .send({
-                email: 'imam@masjid.com',
+                email: 'buyer@masjid.com',
                 password: 'password123'
             });
-        const imamToken = imamRes.body.token;
+        const buyerToken = buyerRes.body.token;
 
         // Create a receipt to report on
         const res = await request(app)
-            .post('/receipts')
-            .set('Authorization', `Bearer ${imamToken}`)
+            .post('/api/receipts')
+            .set('Authorization', `Bearer ${buyerToken}`)
             .field('amount', '500.00')
             .field('category', 'Construction')
             .field('note', 'Report test receipt')
@@ -41,7 +41,7 @@ describe('Report API', () => {
 
         // Tag it for event report
         await request(app)
-            .post(`/receipts/${receiptId}/tag`)
+            .post(`/api/receipts/${receiptId}/tag`)
             .set('Authorization', `Bearer ${financeToken}`)
             .send({
                 tagName: 'Renovation2023',
@@ -57,10 +57,10 @@ describe('Report API', () => {
         await prisma.$disconnect();
     });
 
-    describe('GET /reports/month/:month', () => {
+    describe('GET /api/reports/month/:month', () => {
         it('should get monthly report for Finance', async () => {
             const res = await request(app)
-                .get(`/reports/month/${currentMonth}`)
+                .get(`/api/reports/month/${currentMonth}`)
                 .set('Authorization', `Bearer ${financeToken}`);
 
             expect(res.statusCode).toEqual(200);
@@ -70,18 +70,18 @@ describe('Report API', () => {
 
         it('should fail with invalid month format', async () => {
             const res = await request(app)
-                .get('/reports/month/2023-13')
+                .get('/api/reports/month/2023-13')
                 .set('Authorization', `Bearer ${financeToken}`);
 
             expect(res.statusCode).toEqual(400);
         });
     });
 
-    describe('GET /reports/year/:year', () => {
+    describe('GET /api/reports/year/:year', () => {
         it('should get yearly report for Finance', async () => {
             const currentYear = new Date().getFullYear().toString();
             const res = await request(app)
-                .get(`/reports/year/${currentYear}`)
+                .get(`/api/reports/year/${currentYear}`)
                 .set('Authorization', `Bearer ${financeToken}`);
 
             expect(res.statusCode).toEqual(200);
@@ -93,7 +93,7 @@ describe('Report API', () => {
     describe('Excel Exports', () => {
         it('should export monthly Excel report', async () => {
             const res = await request(app)
-                .get(`/reports/export/month/${currentMonth}`)
+                .get(`/api/reports/export/month/${currentMonth}`)
                 .set('Authorization', `Bearer ${financeToken}`);
 
             expect(res.statusCode).toEqual(200);
@@ -103,7 +103,7 @@ describe('Report API', () => {
         it('should export yearly Excel report', async () => {
             const currentYear = new Date().getFullYear().toString();
             const res = await request(app)
-                .get(`/reports/export/year/${currentYear}`)
+                .get(`/api/reports/export/year/${currentYear}`)
                 .set('Authorization', `Bearer ${financeToken}`);
 
             expect(res.statusCode).toEqual(200);
@@ -111,10 +111,10 @@ describe('Report API', () => {
         });
     });
 
-    describe('GET /reports/event/:eventName', () => {
+    describe('GET /api/reports/event/:eventName', () => {
         it('should get event report for Finance', async () => {
             const res = await request(app)
-                .get('/reports/event/Renovation2023')
+                .get('/api/reports/event/Renovation2023')
                 .set('Authorization', `Bearer ${financeToken}`);
 
             expect(res.statusCode).toEqual(200);
@@ -127,7 +127,7 @@ describe('Report API', () => {
 
         beforeAll(async () => {
             const res = await request(app)
-                .post('/auth/login')
+                .post('/api/auth/login')
                 .send({
                     email: 'multi@masjid.com',
                     password: 'password123'
@@ -135,9 +135,9 @@ describe('Report API', () => {
             multiToken = res.body.token;
         });
 
-        it('should allow multi-role user to upload (Imam role)', async () => {
+        it('should allow multi-role user to upload (Buyer role)', async () => {
             const res = await request(app)
-                .post('/receipts')
+                .post('/api/receipts')
                 .set('Authorization', `Bearer ${multiToken}`)
                 .field('amount', '10.00')
                 .field('category', 'Test')
@@ -150,17 +150,17 @@ describe('Report API', () => {
 
         it('should allow multi-role user to view reports (Finance role)', async () => {
             const res = await request(app)
-                .get('/reports/dashboard')
+                .get('/api/reports/dashboard')
                 .set('Authorization', `Bearer ${multiToken}`);
 
             expect(res.statusCode).toEqual(200);
         });
     });
 
-    describe('GET /reports/dashboard', () => {
+    describe('GET /api/reports/dashboard', () => {
         it('should get dashboard stats for Finance', async () => {
             const res = await request(app)
-                .get('/reports/dashboard')
+                .get('/api/reports/dashboard')
                 .set('Authorization', `Bearer ${financeToken}`);
 
             expect(res.statusCode).toEqual(200);
@@ -169,3 +169,4 @@ describe('Report API', () => {
         });
     });
 });
+

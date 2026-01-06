@@ -19,6 +19,10 @@ const authorizeRole = (allowedRoles) => {
             return res.status(403).json({ error: 'Access denied: No roles found' });
         }
 
+        if (req.user.roles.includes('ADMIN')) {
+            return next();
+        }
+
         const hasAccess = req.user.roles.some(role => allowedRoles.includes(role));
 
         if (!hasAccess) {

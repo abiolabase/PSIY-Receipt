@@ -17,25 +17,28 @@ describe('Auth API', () => {
         console.log("afterAll finished.");
     });
 
-    describe('POST /auth/login', () => {
+    describe('POST /api/auth/login', () => {
         it('should login successfully with valid credentials', async () => {
             const res = await request(app)
-                .post('/auth/login')
+                .post('/api/auth/login')
                 .send({
-                    email: 'imam@masjid.com',
+                    email: 'buyer@masjid.com',
                     password: 'password123'
                 });
 
             expect(res.statusCode).toEqual(200);
             expect(res.body).toHaveProperty('token');
-            expect(res.body.roles).toContain('IMAM');
+            expect(res.body.roles).toContain('BUYER');
+            expect(res.body).toHaveProperty('user');
+            expect(res.body.user).toHaveProperty('email', 'buyer@masjid.com');
+            expect(res.body.user).toHaveProperty('role', 'BUYER');
         });
 
         it('should fail with invalid credentials', async () => {
             const res = await request(app)
-                .post('/auth/login')
+                .post('/api/auth/login')
                 .send({
-                    email: 'imam@masjid.com',
+                    email: 'buyer@masjid.com',
                     password: 'wrongpassword'
                 });
 
@@ -45,7 +48,7 @@ describe('Auth API', () => {
 
         it('should fail with non-existent user', async () => {
             const res = await request(app)
-                .post('/auth/login')
+                .post('/api/auth/login')
                 .send({
                     email: 'nonexistent@masjid.com',
                     password: 'password123'

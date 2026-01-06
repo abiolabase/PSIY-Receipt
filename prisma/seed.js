@@ -7,7 +7,7 @@ async function main() {
     const password = await bcrypt.hash('password123', 10);
 
     // 1. Seed Roles
-    const roles = ['IMAM', 'FINANCE', 'AUDITOR'];
+    const roles = ['BUYER', 'FINANCE', 'AUDITOR', 'ADMIN'];
     const roleMap = {};
     for (const roleName of roles) {
         roleMap[roleName] = await prisma.role.upsert({
@@ -17,16 +17,16 @@ async function main() {
         });
     }
 
-    // 2. Seed Imam User
-    const imam = await prisma.user.upsert({
-        where: { email: 'imam@masjid.com' },
+    // 2. Seed Buyer User (formerly Imam)
+    const buyer = await prisma.user.upsert({
+        where: { email: 'buyer@masjid.com' },
         update: {},
         create: {
-            email: 'imam@masjid.com',
-            name: 'Imam User',
+            email: 'buyer@masjid.com',
+            name: 'Buyer User',
             password_hash: password,
             roles: {
-                create: [{ role_id: roleMap['IMAM'].id }]
+                create: [{ role_id: roleMap['BUYER'].id }]
             }
         },
     });
@@ -59,7 +59,21 @@ async function main() {
         },
     });
 
-    // 5. Seed a Multi-Role User (Imam + Finance)
+    // 5. Seed Admin User
+    const admin = await prisma.user.upsert({
+        where: { email: 'admin@masjid.com' },
+        update: {},
+        create: {
+            email: 'admin@masjid.com',
+            name: 'Admin User',
+            password_hash: password,
+            roles: {
+                create: [{ role_id: roleMap['ADMIN'].id }]
+            }
+        },
+    });
+
+    // 6. Seed a Multi-Role User (Buyer + Finance)
     const multiRoleUser = await prisma.user.upsert({
         where: { email: 'multi@masjid.com' },
         update: {},
@@ -69,7 +83,7 @@ async function main() {
             password_hash: password,
             roles: {
                 create: [
-                    { role_id: roleMap['IMAM'].id },
+                    { role_id: roleMap['BUYER'].id },
                     { role_id: roleMap['FINANCE'].id }
                 ]
             }
@@ -77,7 +91,7 @@ async function main() {
     });
 
     console.log("Seeding completed!");
-    console.log({ imam, finance, auditor, multiRoleUser });
+    console.log({ buyer, finance, auditor, admin, multiRoleUser });
 }
 
 main()
