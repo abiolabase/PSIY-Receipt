@@ -1,5 +1,11 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
+const dotenv = require('dotenv');
+
+// Only load .env if DATABASE_URL is not already set (CI sets DATABASE_URL)
+if (!process.env.DATABASE_URL) {
+    dotenv.config();
+}
 
 const prisma = new PrismaClient();
 

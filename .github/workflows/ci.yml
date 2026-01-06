@@ -44,8 +44,15 @@ jobs:
 
     - name: Run Prisma Migrations & Seed
       run: |
+        echo "Using DATABASE_URL: $DATABASE_URL"
+        # Remove any repo .env that could override the CI env
+        rm -f .env || true
+        # Small wait to ensure the postgres service is fully ready
+        sleep 5
         npx prisma db push
         node prisma/seed.js
+      env:
+        DATABASE_URL: ${{ env.DATABASE_URL }}
 
     - name: Run Tests
       run: npm test
