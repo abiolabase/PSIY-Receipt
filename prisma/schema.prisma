@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int        @id @default(autoincrement())
+  name          String
+  email         String     @unique
+  password_hash String
+  created_at    DateTime   @default(now())
+  roles         UserRole[]
+  receipts      Receipt[]
+}
+
+model Role {
+  id    Int        @id @default(autoincrement())
+  name  String     @unique // "IMAM", "FINANCE", "AUDITOR"
+  users UserRole[]
+}
+
+model UserRole {
+  user_id Int
+  role_id Int
+  user    User @relation(fields: [user_id], references: [id])
+  role    Role @relation(fields: [role_id], references: [id])
+
+  @@id([user_id, role_id])
+}
+
+model Receipt {
+  id           Int           @id @default(autoincrement())
+  uploaded_by  Int
+  uploader     User          @relation(fields: [uploaded_by], references: [id])
+  amount       Decimal       @db.Decimal(10, 2)
+  category     String
+  payment_mode PaymentMode
+  note         String?
+  image_url    String
+  created_at   DateTime      @default(now())
+  tags         ReceiptTag[]
+}
+
+model Tag {
+  id       Int          @id @default(autoincrement())
+  name     String
+  month    String?      // Format: YYYY-MM
+  receipts ReceiptTag[]
+}
+
+model ReceiptTag {
+  receipt_id Int
+  tag_id     Int
+  receipt    Receipt @relation(fields: [receipt_id], references: [id])
+  tag        Tag     @relation(fields: [tag_id], references: [id])
+
+  @@id([receipt_id, tag_id])
+}
+
+enum PaymentMode {
+  CASH
+  CARD
+  TRANSFER
+}
