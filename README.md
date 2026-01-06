@@ -3,7 +3,7 @@
 
 [![CI - Masjid Receipt System](https://github.com/abiolabase/PSIY-Receipt/actions/workflows/ci.yml/badge.svg)](https://github.com/abiolabase/PSIY-Receipt/actions)
 
-A professional-grade backend for digitizing and securing Masjid expense tracking. Built with scalability, performance, and auditability in mind.
+A backend for digitizing and securing Masjid expense tracking. Built with scalability, performance, and auditability in mind.
 
 ## 🚀 Quick Guide
 
@@ -29,27 +29,50 @@ Here are the highlights:
 - **Smart Tagging**: Group receipts by event (e.g., "Renovation 2024") or month.
 - **One-Click Exports**: Generate board-ready Excel reports for monthly or yearly audits.
 
-## ⚙️ Setup Instructions
+###  Roles
 
-### 1. Installation
+## Buyer (e.g Imam)
+- Upload receipt records
+- Enter receipt details
+- View own submissions
+
+## Finance 
+- View all receipts
+- Tag receipts to events or months
+- Generate spending summaries
+
+## Auditor
+- Read-only access
+- View all transactions
+- Verify totals and records
+
+### ⚙️ Setup Instructions
+
+## 1. Clone Repository
+```bash
+git clone https://github.com/abiolabase/PSIY-Receipt.git
+cd PSIY-Receipt
+```
+
+## 2. Install Dependencies
 ```bash
 npm install
 ```
 
-### 2. Environment (.env)
+## 3. Environment (.env)
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/receipt_db"
 JWT_SECRET="secure_secret"
 PORT=3000
 ```
 
-### 3. Initialize & Seed
+## 4. Initialize & Seed
 ```bash
 npx prisma db push
 node prisma/seed.js
 ```
 
-### 4. Run Tests
+## 5. Run Tests
 ```bash
 npm test
 ```
@@ -60,6 +83,12 @@ The system includes comprehensive integration tests for:
 1.  **Authentication**: Role-based access validation and token lifecycle.
 2.  **Receipts**: Secure multipart uploads and state management.
 3.  **Reporting**: Aggregation accuracy and Excel generation headers.
+
+
+## 6. Start App
+```bash
+npm start
+```
 
 ## 🛡 Security & Production Roadmap
 
