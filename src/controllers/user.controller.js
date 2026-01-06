@@ -62,7 +62,8 @@ exports.createUser = async (req, res) => {
             id: user.id,
             name: user.name,
             email: user.email,
-            roles: user.roles.map(ur => ur.role.name)
+            roles: user.roles.map(ur => ur.role.name),
+            created_at: user.created_at
         });
     } catch (error) {
         if (error.code === 'P2002') {
