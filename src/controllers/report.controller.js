@@ -172,20 +172,19 @@ exports.getEventReport = async (req, res) => {
 
 exports.getDashboardStats = async (req, res) => {
     try {
-        const now = new Date();
-        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-
-        const monthTotal = await Receipt.aggregate({
+        // 1. All-time aggregates
+        const totalStats = await Receipt.aggregate({
             _sum: { amount: true },
-            where: { created_at: { gte: startOfMonth, lte: endOfMonth } }
+            _count: { id: true }
         });
 
+        // 2. Category breakdown
         const categoryStats = await Receipt.groupBy({
             by: ['category'],
             _sum: { amount: true },
         });
 
+        // 3. Recent activity
         const recentReceipts = await Receipt.findMany({
             take: 5,
             orderBy: { created_at: 'desc' },
@@ -193,8 +192,12 @@ exports.getDashboardStats = async (req, res) => {
         });
 
         res.json({
-            monthTotal: Number(monthTotal._sum.amount) || 0,
-            categoryStats: categoryStats.map(stat => ({ category: stat.category, total: Number(stat._sum.amount) || 0 })),
+            totalAmount: Number(totalStats._sum.amount) || 0,
+            totalReceipts: totalStats._count.id || 0,
+            categoryCounts: categoryStats.map(stat => ({
+                category: stat.category,
+                _sum: { amount: Number(stat._sum.amount) || 0 }
+            })),
             recentReceipts
         });
     } catch (error) {
