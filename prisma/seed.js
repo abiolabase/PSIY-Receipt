@@ -17,13 +17,13 @@ async function main() {
         });
     }
 
-    // 2. Seed Buyer User (formerly Imam)
+    // 2. Seed Buyer User
     const buyer = await prisma.user.upsert({
-        where: { email: 'buyer@masjid.com' },
+        where: { email: 'buyer@psiy.fi' },
         update: {},
         create: {
-            email: 'buyer@masjid.com',
-            name: 'Buyer User',
+            email: 'buyer@psiy.fi',
+            name: 'Buyer',
             password_hash: password,
             roles: {
                 create: [{ role_id: roleMap['BUYER'].id }]
@@ -33,11 +33,11 @@ async function main() {
 
     // 3. Seed Finance User
     const finance = await prisma.user.upsert({
-        where: { email: 'finance@masjid.com' },
+        where: { email: 'finance@psiy.fi' },
         update: {},
         create: {
-            email: 'finance@masjid.com',
-            name: 'Finance User',
+            email: 'finance@psiy.fi',
+            name: 'Finance',
             password_hash: password,
             roles: {
                 create: [{ role_id: roleMap['FINANCE'].id }]
@@ -47,11 +47,11 @@ async function main() {
 
     // 4. Seed Auditor User
     const auditor = await prisma.user.upsert({
-        where: { email: 'auditor@masjid.com' },
+        where: { email: 'auditor@psiy.fi' },
         update: {},
         create: {
-            email: 'auditor@masjid.com',
-            name: 'Auditor User',
+            email: 'auditor@psiy.fi',
+            name: 'Auditor',
             password_hash: password,
             roles: {
                 create: [{ role_id: roleMap['AUDITOR'].id }]
@@ -61,10 +61,10 @@ async function main() {
 
     // 5. Seed Admin User
     const admin = await prisma.user.upsert({
-        where: { email: 'admin@masjid.com' },
+        where: { email: 'admin@psiy.fi' },
         update: {},
         create: {
-            email: 'admin@masjid.com',
+            email: 'admin@psiy.fi',
             name: 'Admin User',
             password_hash: password,
             roles: {
