@@ -1,16 +1,17 @@
 # Masjid Receipt Management System
-*Digital Accountability & Financial Transparency*
+*Financial & Accountability Transparency*
 
 [![CI - Masjid Receipt System](https://github.com/abiolabase/PSIY-Receipt/actions/workflows/ci.yml/badge.svg)](https://github.com/abiolabase/PSIY-Receipt/actions)
 
 A professional-grade backend for digitizing and securing Masjid expense tracking. Built with scalability, performance, and auditability in mind.
 
-## 🚀 Interviewer Quick Start
+## 🚀 Quick Guide
 
-If you're reviewing this project, here are the highlights:
+Here are the highlights:
+
 - **Architecture**: Many-to-Many role system allowing flexible staff permissions.
 - **Reporting**: Advanced SQL aggregations and professional **Excel exports** using `ExcelJS`.
-- **Quality**: 100% pass-rate testing suite (16 tests) across Auth, Receipts, and Reports.
+- **Quality**: 100% pass-rate testing suite (19 tests) across Auth, Receipts, and Reports.
 - **Orchestration**: Fully automated CI/CD pipeline via GitHub Actions.
 
 ## 🛠 Tech Stack
