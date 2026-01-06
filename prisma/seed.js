@@ -75,10 +75,10 @@ async function main() {
 
     // 6. Seed a Multi-Role User (Buyer + Finance)
     const multiRoleUser = await prisma.user.upsert({
-        where: { email: 'multi@masjid.com' },
+        where: { email: 'multi@psiy.fi' },
         update: {},
         create: {
-            email: 'multi@masjid.com',
+            email: 'multi@psiy.fi',
             name: 'Multi Role User',
             password_hash: password,
             roles: {
